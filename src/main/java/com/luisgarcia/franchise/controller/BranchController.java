@@ -18,7 +18,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/franchises")
 public class BranchController {
 
-        private final BranchService branchService;
+    private final BranchService branchService;
 
     public BranchController(BranchService branchService) {
         this.branchService = branchService;

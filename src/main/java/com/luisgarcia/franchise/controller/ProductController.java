@@ -18,7 +18,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/branches")
 public class ProductController {
 
-        private final ProductService productService;
+    private final ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
