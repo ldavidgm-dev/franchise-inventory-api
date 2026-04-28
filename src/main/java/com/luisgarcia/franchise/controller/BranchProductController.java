@@ -16,11 +16,11 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/branches")
-public class ProductController {
+public class BranchProductController {
 
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
+    public BranchProductController(ProductService productService) {
         this.productService = productService;
     }
 
@@ -31,5 +31,5 @@ public class ProductController {
     ) {
         ProductResponse response = productService.createProduct(id, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+    } 
 }

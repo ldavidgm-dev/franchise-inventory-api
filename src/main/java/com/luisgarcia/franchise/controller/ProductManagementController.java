@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.luisgarcia.franchise.dto.request.UpdateNameRequest;
 import com.luisgarcia.franchise.dto.request.UpdateStockRequest;
 import com.luisgarcia.franchise.dto.response.ProductResponse;
 import com.luisgarcia.franchise.service.ProductService;
@@ -41,5 +42,18 @@ public class ProductManagementController {
         ProductResponse response = productService.updateStock(id, request.getStock());
 
         return ResponseEntity.ok(response);
-    }    
+    }
+    
+    
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProductResponse> updateName(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateNameRequest request
+    ) {
+
+        ProductResponse response =
+                productService.updateName(id, request.getName());
+
+        return ResponseEntity.ok(response);
+    }   
 }
