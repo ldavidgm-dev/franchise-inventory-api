@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.luisgarcia.franchise.dto.request.FranchiseRequest;
 import com.luisgarcia.franchise.dto.response.FranchiseResponse;
+import com.luisgarcia.franchise.exception.ResourceNotFoundException;
 import com.luisgarcia.franchise.model.Franchise;
 import com.luisgarcia.franchise.repository.FranchiseRepository;
 
@@ -32,7 +33,7 @@ public class FranchiseService {
     public FranchiseResponse updateName(Long id, String name) {
 
         Franchise franchise = franchiseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Franchise not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Franchise", id));
 
         franchise.setName(name);
 
