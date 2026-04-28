@@ -121,5 +121,22 @@ public class ProductService {
         }
 
         return result;
+    }
+    
+    public ProductResponse updateName(Long id, String name) {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setName(name);
+
+        Product updated = productRepository.save(product);
+
+        return new ProductResponse(
+                updated.getId(),
+                updated.getName(),
+                updated.getStock(),
+                updated.getBranch().getId()
+        );
     }    
 }

@@ -38,4 +38,20 @@ public class BranchService {
                 franchise.getId()
         );
     }
+
+    public BranchResponse updateName(Long id, String name) {
+
+        Branch branch = branchRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Branch not found"));
+
+        branch.setName(name);
+
+        Branch updated = branchRepository.save(branch);
+
+        return new BranchResponse(
+                updated.getId(),
+                updated.getName(),
+                updated.getFranchise().getId()
+        );
+    }    
 }
