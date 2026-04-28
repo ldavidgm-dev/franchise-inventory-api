@@ -44,9 +44,31 @@ public class ProductService {
     @Transactional
     public void deleteProduct(Long productId) {
 
-    Product product = productRepository.findById(productId)
-        .orElseThrow(() -> new RuntimeException("Product not found"));
+        Product product = productRepository.findById(productId)
+            .orElseThrow(() -> new RuntimeException("Product not found"));
 
-    productRepository.delete(product);
-}
+        productRepository.delete(product);
+    }
+
+    @Transactional
+    public ProductResponse updateStock(Long productId, Integer stock) {
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        if (stock < 0) {
+            throw new IllegalArgumentException("Stock cannot be negative");
+        }
+
+        product.setStock(stock);
+
+        Product updated = productRepository.save(product);
+
+        return new ProductResponse(
+                updated.getId(),
+                updated.getName(),
+                updated.getStock(),
+                updated.getBranch().getId()
+        );
+    }
 }
