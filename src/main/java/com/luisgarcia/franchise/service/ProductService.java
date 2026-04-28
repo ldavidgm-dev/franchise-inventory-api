@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.luisgarcia.franchise.dto.request.ProductRequest;
 import com.luisgarcia.franchise.dto.response.ProductResponse;
 import com.luisgarcia.franchise.dto.response.TopProductResponse;
+import com.luisgarcia.franchise.exception.BusinessRuleException;
+import com.luisgarcia.franchise.exception.ResourceNotFoundException;
 import com.luisgarcia.franchise.model.Branch;
 import com.luisgarcia.franchise.model.Product;
 import com.luisgarcia.franchise.repository.BranchRepository;
@@ -36,7 +38,7 @@ public class ProductService {
     public ProductResponse createProduct(Long branchId, ProductRequest request) {
 
         Branch branch = branchRepository.findById(branchId)
-                .orElseThrow(() -> new RuntimeException("Branch not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Branch", branchId));
 
         Product product = new Product();
         product.setName(request.getName());
@@ -57,7 +59,7 @@ public class ProductService {
     public void deleteProduct(Long productId) {
 
         Product product = productRepository.findById(productId)
-            .orElseThrow(() -> new RuntimeException("Product not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Product", productId));
 
         productRepository.delete(product);
     }
@@ -66,10 +68,10 @@ public class ProductService {
     public ProductResponse updateStock(Long productId, Integer stock) {
 
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product", productId));
 
         if (stock < 0) {
-            throw new IllegalArgumentException("Stock cannot be negative");
+            throw new BusinessRuleException("Stock cannot be negative");
         }
 
         product.setStock(stock);
@@ -87,7 +89,7 @@ public class ProductService {
     public List<TopProductResponse> getTopProductsByFranchise(Long franchiseId) {
 
         if (!franchiseRepository.existsById(franchiseId)) {
-            throw new RuntimeException("Franchise not found");
+            throw new BusinessRuleException("Franchise not found");
         }
 
         List<Product> products =
@@ -126,7 +128,7 @@ public class ProductService {
     public ProductResponse updateName(Long id, String name) {
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product", id));
 
         product.setName(name);
 

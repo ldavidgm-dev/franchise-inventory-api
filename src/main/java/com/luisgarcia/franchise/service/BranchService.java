@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.luisgarcia.franchise.dto.request.BranchRequest;
 import com.luisgarcia.franchise.dto.response.BranchResponse;
+import com.luisgarcia.franchise.exception.ResourceNotFoundException;
 import com.luisgarcia.franchise.model.Branch;
 import com.luisgarcia.franchise.model.Franchise;
 import com.luisgarcia.franchise.repository.BranchRepository;
@@ -24,7 +25,7 @@ public class BranchService {
     public BranchResponse createBranch(Long franchiseId, BranchRequest request) {
 
         Franchise franchise = franchiseRepository.findById(franchiseId)
-                .orElseThrow(() -> new RuntimeException("Franchise not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Franchise", franchiseId));
 
         Branch branch = new Branch();
         branch.setName(request.getName());
@@ -42,7 +43,7 @@ public class BranchService {
     public BranchResponse updateName(Long id, String name) {
 
         Branch branch = branchRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Branch not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Branch", id));
 
         branch.setName(name);
 
