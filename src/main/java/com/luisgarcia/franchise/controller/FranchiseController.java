@@ -17,7 +17,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/franchises")
 public class FranchiseController {
 
-        private final FranchiseService franchiseService;
+    private final FranchiseService franchiseService;
 
     public FranchiseController(FranchiseService franchiseService) {
         this.franchiseService = franchiseService;

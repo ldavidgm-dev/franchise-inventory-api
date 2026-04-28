@@ -1,6 +1,7 @@
 package com.luisgarcia.franchise.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.luisgarcia.franchise.dto.request.ProductRequest;
 import com.luisgarcia.franchise.dto.response.ProductResponse;
@@ -39,4 +40,13 @@ public class ProductService {
                 branch.getId()
         );
     }
+
+    @Transactional
+    public void deleteProduct(Long productId) {
+
+    Product product = productRepository.findById(productId)
+        .orElseThrow(() -> new RuntimeException("Product not found"));
+
+    productRepository.delete(product);
+}
 }
